@@ -5,8 +5,19 @@ KEYSTORAGE = 'videoplayer-current-time';
 const iframe = document.querySelector('#vimeo-player');
 //console.log(iframe);
 const player = new Player(iframe);
+//узнаем продожительность видео
+let duration;
+player.on('durationchange', function (event) {
+  duration = event.duration;
+
+ // console.log(duration);
+
+ if (Number( localStorage.getItem(KEYSTORAGE))>0&&Number( localStorage.getItem(KEYSTORAGE))<duration)  {
+  player.setCurrentTime(Number( localStorage.getItem(KEYSTORAGE)) || 0);
+} 
+});
 //Переводит время видео на время из localstorage
-player.setCurrentTime(localStorage.getItem(KEYSTORAGE) || 0);
+
 
 //Записивает в localstorage время с видео раз в секунду
 player.on(
